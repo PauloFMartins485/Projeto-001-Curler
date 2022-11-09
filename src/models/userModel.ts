@@ -4,3 +4,7 @@ export interface User {
     username: string;
     hashedpass: string;
 }
+export interface Login {
+    email: string;
+    password: string;
+}
