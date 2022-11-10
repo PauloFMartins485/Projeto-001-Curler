@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response } from "express";
 import * as bcrypt from 'bcrypt';
+import { auth } from '../services/auth';
 
 const prisma = new PrismaClient();
 
@@ -16,9 +17,10 @@ const loginPost = async (request: Request, response: Response) => {
     
     if (user) {
         const isValid = bcrypt.compareSync(userRecived.password, user.hashedpass);
-        response.json(`${isValid?"Login realizado com sucesso!":"Falha na atentificação!"}`).send();
+        response.json(`${isValid? auth(user.id):"Falha na atentificação!"}`).send();
     } else {
-        response.json("Falha na atentificação!")
+        // response.json("Falha na atentificação!")
+        response.errored
     }    
 }
 
