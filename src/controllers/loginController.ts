@@ -12,12 +12,14 @@ const loginPost = async (request: Request, response: Response) => {
     const userRecived = request.body;
     const recivedPassword = userRecived.password;
 
-    const user = await prisma.user.findFirst({ where: { username: recivedPassword.username }});
-
+    const user = await prisma.user.findUnique({ where: { username: userRecived.email }});
+    
     if (user) {
         const isValid = bcrypt.compareSync(userRecived.password, user.hashedpass);
         response.json(`${isValid?"Login realizado com sucesso!":"Falha na atentificação!"}`).send();
-    }
+    } else {
+        response.json("Falha na atentificação!")
+    }    
 }
 
 // DELETE ROUTES
