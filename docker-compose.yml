@@ -14,4 +14,14 @@ services:
         - '5432:5432'
       volumes:
           - ~/data/postgres/projeto_001_curler:/var/lib/postgresql/data
-        
+    redis:
+      image: redis:6.2-alpine
+      restart: always
+      ports:
+        - '6379:6379'
+      command: redis-server --save 20 1 --loglevel warning 
+      volumes: 
+        - cache:/data
+volumes:
+  cache:
+    driver: local
