@@ -23,14 +23,14 @@ const userPost = async (request: Request, response: Response) => {
   console.log(hashedPassword);
   const data = {
     nome: request.body.nome,
-    categoria: request.body.categoria,
+    type: request.body.type,
     username: request.body.username,
     hashedpass: hashedPassword,
   };
   await prisma.user.create({data: data}).then((user) => {
     const newData = {
       nome: user.nome,
-      categoria: user.categoria,
+      type: user.type,
       username: user.username,
     };
     response.send(newData);
@@ -76,7 +76,7 @@ const userPatch = async (request: Request, response: Response) => {
       },
       data: {
         nome: request.body.nome,
-        categoria: request.body.categoria,
+        type: request.body.type,
         username: request.body.username,
         hashedpass: request.body.hashedpass,
       },
