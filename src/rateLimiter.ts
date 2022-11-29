@@ -6,7 +6,7 @@ redisClient.on('error', (err) => console.log('Redis Client Error', err));
 console.log (redisClient);
 
 const WINDOW_SIZE_IN_HOURS = 24;
-const MAX_WINDOW_REQUEST_COUNT = 3;
+const MAX_WINDOW_REQUEST_COUNT = 100;
 const WINDOW_LOG_INTERVAL_IN_HOURS = 1;
 
 export const rateLimiter = async (req: any, res: any, next:any) => {
@@ -62,9 +62,10 @@ export const rateLimiter = async (req: any, res: any, next:any) => {
         await redisClient.set(req.ip, JSON.stringify(data));
       }
     }
-    
+    redisClient.disconnect();
     next();
   } catch (error) {
     next(error);
+    redisClient.disconnect();
   }
 };
