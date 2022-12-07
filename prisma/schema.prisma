@@ -11,9 +11,28 @@ datasource db {
 }
 
 model User {
-  id         Int         @id @default(autoincrement())
-  nome       String      @db.VarChar
-  type       String      @db.VarChar
-  username   String      @unique @db.VarChar
-  hashedpass String      @db.VarChar
+  id         Int    @id @default(autoincrement())
+  nome       String @db.VarChar
+  type       String @db.VarChar
+  username   String @unique @db.VarChar
+  hashedpass String @db.VarChar
+}
+
+model Authors {
+  id      Int      @id @default(autoincrement())
+  name    String   @db.VarChar
+  picture String   @db.VarChar
+  email   String   @unique @db.VarChar
+  Papers  Papers[]
+}
+
+model Papers {
+  id             Int     @id @default(autoincrement())
+  author         Authors @relation(fields: [authorEmail], references: [email])
+  authorEmail    String
+  category       String  @db.VarChar
+  title          String  @db.VarChar
+  summary        String  @db.VarChar
+  firstParagraph String  @db.VarChar
+  body           String  @db.VarChar
 }

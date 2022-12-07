@@ -3,7 +3,6 @@ import * as redis from 'redis';
 
 const redisClient = redis.createClient();
 redisClient.on('error', (err) => console.log('Redis Client Error', err));
-console.log (redisClient);
 
 const WINDOW_SIZE_IN_HOURS = 24;
 const MAX_WINDOW_REQUEST_COUNT = 100;
@@ -21,7 +20,7 @@ export const rateLimiter = async (req: any, res: any, next:any) => {
     const record = await redisClient.get(req.ip);
     const currentRequestTime = moment();
     console.log(record);
-    //  if no record is found , create a new record for user and store to redis
+    //  if no record is found, create a new record for user and store to redis
     if (record == null) {
       let newRecord = [];
       let requestLog = {
